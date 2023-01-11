@@ -1,0 +1,57 @@
+﻿<Window x:Class="MyApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:local="clr-namespace:MyApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ToolBar Grid.Row="0" Grid.ColumnSpan="3">
+            <Button Command="Open" Content="Open" />
+        </ToolBar>
+        <ToolBar Grid.Row="1" Grid.ColumnSpan="3" x:Name="driveLabelBar">
+            
+        </ToolBar>
+
+        <DockPanel Grid.Row="2" Grid.Column="0">
+            <TreeView x:Name="FolderTreeView">
+                <TreeView.Style>
+                    <Style TargetType="{x:Type TreeView}">
+                        <Setter Property="Background" Value="#EEFFEE"/>
+                    </Style>
+                </TreeView.Style>
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="Background" Value="#FFFFFF"/>
+                        <EventSetter Event="PreviewMouseLeftButtonUp" Handler="FolderLeftMouseUp"/>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate DataType="local:FolderInfo" ItemsSource="{Binding FolderInfoList}">
+                        <TextBlock Text="{Binding Name}"/>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+                
+            </TreeView>
+        </DockPanel>
+        <GridSplitter Grid.Row="2" Grid.Column="1" Width="3" HorizontalAlignment="Stretch" />
+        <DockPanel Grid.Row="2" Grid.Column="2">
+            <DataGrid x:Name="FileDataGrid" DockPanel.Dock="Top" />
+
+        </DockPanel>
+        
+
+    </Grid>
+</Window>
