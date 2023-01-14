@@ -60,10 +60,9 @@ namespace MyApp
             DirectoryInfo[] subFolders = di.GetDirectories();
 
             _folderInfoList.Clear();
-            foreach (DirectoryInfo subFolder in subFolders)
+            foreach (string f in Directory.EnumerateDirectories(path))
             {
-                Trace.WriteLine($"{subFolder.Name}");
-                FolderInfo fi = new FolderInfo(subFolder.FullName, subFolder.Name);
+                FolderInfo fi = new FolderInfo(f, f);
                 fi.FolderInfoList = FileUtil.walkSubFolder(fi.Path);
                 _folderInfoList.Add(fi);
             }
@@ -71,11 +70,10 @@ namespace MyApp
 
             _fileInfoList.Clear();
             System.IO.FileInfo[] files = di.GetFiles();
-            foreach(System.IO.FileInfo file in files)
+            foreach (string file in Directory.EnumerateFiles(path))
             {
-                FileInfo fi = new FileInfo(file.FullName, file.Name);
-                fi.setAttribute(file.Attributes);
-
+                FileInfo fi = new FileInfo(file, file);
+                fi.IsFolder = true;
                 _fileInfoList.Add(fi);
             }
             FileDataGrid.ItemsSource = _fileInfoList;
@@ -94,22 +92,29 @@ namespace MyApp
             _fileInfoList.Clear();
             DirectoryInfo di = new DirectoryInfo(((FolderInfo)item.DataContext).Path);
 
-            DirectoryInfo[] dirs = di.GetDirectories();
-            foreach (DirectoryInfo d in dirs)
+            try
             {
-                FolderInfo fi = new FolderInfo(d.FullName, d.Name);
-                _fileInfoList.Add(fi);
-            }
+                DirectoryInfo[] dirs = di.GetDirectories();
+                foreach (DirectoryInfo d in dirs)
+                {
+                    FolderInfo fi = new FolderInfo(d.FullName, d.Name);
+                    _fileInfoList.Add(fi);
+                }
 
-            System.IO.FileInfo[] files = di.GetFiles();
-            foreach (System.IO.FileInfo file in files)
+                System.IO.FileInfo[] files = di.GetFiles();
+                foreach (System.IO.FileInfo file in files)
+                {
+                    FileInfo fi = new FileInfo(file.FullName, file.Name);
+                    fi.setAttribute(file.Attributes);
+
+                    _fileInfoList.Add(fi);
+                }
+                FileDataGrid.ItemsSource = _fileInfoList;
+            }
+            catch(UnauthorizedAccessException ae)
             {
-                FileInfo fi = new FileInfo(file.FullName, file.Name);
-                fi.setAttribute(file.Attributes);
-
-                _fileInfoList.Add(fi);
+                Trace.WriteLine(((FolderInfo)item.DataContext).Path + "を開けません");
             }
-            FileDataGrid.ItemsSource = _fileInfoList;
         }
 
         // https://todosoft.net/blog/?p=816
