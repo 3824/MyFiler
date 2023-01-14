@@ -63,7 +63,7 @@ namespace MyApp
             foreach (string f in Directory.EnumerateDirectories(path))
             {
                 FolderInfo fi = new FolderInfo(f, f);
-                fi.FolderInfoList = FileUtil.walkSubFolder(fi.Path);
+                fi.FolderInfoList = FileUtil.walkSubFolder(fi.Path, 2, 0);
                 _folderInfoList.Add(fi);
             }
             FolderTreeView.ItemsSource = _folderInfoList;
@@ -86,7 +86,7 @@ namespace MyApp
             TreeViewItem item = sender as TreeViewItem;
 
             ((FolderInfo)item.DataContext).FolderInfoList = 
-                FileUtil.walkSubFolder(((FolderInfo)item.DataContext).Path);
+                FileUtil.walkSubFolder(((FolderInfo)item.DataContext).Path, 2, 0);
 
             Trace.WriteLine(((FolderInfo)item.DataContext).Path);
             _fileInfoList.Clear();
