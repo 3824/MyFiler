@@ -14,14 +14,14 @@ namespace MyApp.util
     {
         public static List<FolderInfo> walkSubFolder(string rootPath, int maxDepth, int currentDepth)
         {
-            Trace.WriteLine(currentDepth);
+            //Trace.WriteLine(currentDepth);
             List<FolderInfo> children = new List<FolderInfo>();
             if (currentDepth >= maxDepth) return children;
 
             DirectoryInfo di = new DirectoryInfo(rootPath);
             try
             {
-                Trace.WriteLine(di.FullName);
+                //Trace.WriteLine(di.FullName);
                 DirectoryInfo[] subFolders = di.GetDirectories();
                 int nextDepth = currentDepth + 1;
                 foreach (DirectoryInfo subFolder in subFolders)

@@ -35,7 +35,7 @@
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
                         <Setter Property="Background" Value="#FFFFFF"/>
-                        <EventSetter Event="PreviewMouseLeftButtonUp" Handler="FolderLeftMouseUp"/>
+                        <EventSetter Event="MouseLeftButtonUp" Handler="FolderLeftMouseUp"/>
                     </Style>
                 </TreeView.ItemContainerStyle>
                 <TreeView.ItemTemplate>

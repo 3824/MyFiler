@@ -85,13 +85,18 @@ namespace MyApp
             if (sender == null) return;
             TreeViewItem item = sender as TreeViewItem;
 
+            Trace.WriteLine("**");
+            Trace.WriteLine(((FolderInfo)item.DataContext).FolderInfoList.Count);
             ((FolderInfo)item.DataContext).FolderInfoList = 
                 FileUtil.walkSubFolder(((FolderInfo)item.DataContext).Path, 2, 0);
+            //item.ExpandSubtree();
+            Trace.WriteLine("---");
+            Trace.WriteLine(((FolderInfo)item.DataContext).FolderInfoList.Count);
 
             Trace.WriteLine(((FolderInfo)item.DataContext).Path);
-            _fileInfoList.Clear();
+            //_fileInfoList.Clear();
             DirectoryInfo di = new DirectoryInfo(((FolderInfo)item.DataContext).Path);
-
+            
             try
             {
                 DirectoryInfo[] dirs = di.GetDirectories();
@@ -115,6 +120,9 @@ namespace MyApp
             {
                 Trace.WriteLine(((FolderInfo)item.DataContext).Path + "を開けません");
             }
+            
+            //FolderTreeView.Items.Refresh();
+            //FolderTreeView.UpdateLayout();
         }
 
         // https://todosoft.net/blog/?p=816
